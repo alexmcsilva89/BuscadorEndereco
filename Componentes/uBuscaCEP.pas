@@ -111,10 +111,13 @@ begin
   Result := emptystr;
   FTipoRetornoConsulta := rcJSON;
 
-  LRESTClient := TRESTClient.Create(nil);
-  LRESTRequest := TRESTRequest.Create(nil);
-  LRESTResponse := TRESTResponse.Create(nil);
+  LRESTClient := nil;
+  LRESTRequest := nil;
+  LRESTResponse := nil;
   try
+    LRESTClient := TRESTClient.Create(nil);
+    LRESTRequest := TRESTRequest.Create(nil);
+    LRESTResponse := TRESTResponse.Create(nil);
     try
       LRESTRequest.Client := LRESTClient;
       LRESTRequest.Response := LRESTResponse;
@@ -136,9 +139,9 @@ begin
       raise Exception.Create(sMENSAGEM_FALHA_CONSULTA);
     end;
   finally
-    FreeAndNil(LRESTClient);
-    FreeAndNil(LRESTResponse);
-    FreeAndNil(LRESTRequest);
+    LRESTClient.Free;
+    LRESTResponse.Free;
+    LRESTRequest.Free;
   end;
 end;
 

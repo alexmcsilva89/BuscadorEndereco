@@ -1,0 +1,36 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{65E33D96-7FD2-4583-86E4-F5895F777AC3}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="BuscadorEndereco.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="BuscadorEndereco">
+        <MSBuild Projects="BuscadorEndereco.dproj"/>
+    </Target>
+    <Target Name="BuscadorEndereco:Clean">
+        <MSBuild Projects="BuscadorEndereco.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="BuscadorEndereco:Make">
+        <MSBuild Projects="BuscadorEndereco.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="BuscadorEndereco"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="BuscadorEndereco:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="BuscadorEndereco:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

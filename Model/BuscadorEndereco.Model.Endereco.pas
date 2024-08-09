@@ -65,7 +65,7 @@ type
     sCAPTION_AVISO = 'Aviso';
     sMENSAGEM_NAO_ENCONTRADO = '%s não foi encontrado';
     sCEP_INVALIDO = 'CEP Inválido';
-    nLIMITE_DIGITOS_CEP = 8;
+    nQUANTIDADE_DIGITOS_CEP = 8;
   var
     FQuery: TFDQuery;
     FCEP: String;
@@ -121,17 +121,20 @@ procedure TModelEndereco.AdicionarMensagemValidacao(ACampo: string);
 begin
   if (FMensagemValidacao = emptystr) then
   begin
-    FMensagemValidacao := Format(sMSG_CAMPO_INCORRETO, [ACampo]) + sLineBreak;
+    if Pos(ACampo, FMensagemValidacao) = 0 then
+      FMensagemValidacao := Format(sMSG_CAMPO_INCORRETO, [ACampo]) + sLineBreak;
     Exit;
   end;
 
-  FMensagemValidacao := FMensagemValidacao + Format(sMSG_CAMPO_INCORRETO,
-    [ACampo]) + sLineBreak;
+  if Pos(ACampo, FMensagemValidacao) = 0 then
+    FMensagemValidacao := FMensagemValidacao + Format(sMSG_CAMPO_INCORRETO,
+                          [ACampo]) + sLineBreak;
 end;
 
 function TModelEndereco.ConsultarCEPNaBaseDados: Boolean;
 begin
   Result := False;
+
   if not ValidarCEP then
     Exit;
 
@@ -516,8 +519,7 @@ function TModelEndereco.ValidarCEP(AExibirMensagem: Boolean): boolean;
 begin
   Result := False;
 
-  if (Length(RetornarSomenteNumerosCEP(FCEP)) < nLIMITE_DIGITOS_CEP) or
-     (Length(RetornarSomenteNumerosCEP(FCEP)) > nLIMITE_DIGITOS_CEP) then
+  if (Length(RetornarSomenteNumerosCEP(FCEP)) <> nQUANTIDADE_DIGITOS_CEP) then
   begin
     if AExibirMensagem then
       ExibirMensagem(sCEP_INVALIDO);
